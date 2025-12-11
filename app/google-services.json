@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "999414651912",
+    "project_id": "finance-app-7d29e",
+    "storage_bucket": "finance-app-7d29e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999414651912:android:8d48bf7b2c83187e7145bd",
+        "android_client_info": {
+          "package_name": "com.faisal.financecalc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjEQ1D1BBqDRWwBoGYliXB_EhmObAohE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

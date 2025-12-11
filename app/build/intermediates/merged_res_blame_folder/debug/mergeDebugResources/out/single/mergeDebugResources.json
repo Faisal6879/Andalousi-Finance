@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.faisal.financecalc.app-main-67:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/xml_data_extraction_rules.xml.flat",
+        "source": "com.faisal.financecalc.app-main-67:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/xml_backup_rules.xml.flat",
+        "source": "com.faisal.financecalc.app-main-67:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/drawable_app_icon.jpg.flat",
+        "source": "com.faisal.financecalc.app-main-67:/drawable/app_icon.jpg"
+    },
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/drawable_app_logo.png.flat",
+        "source": "com.faisal.financecalc.app-main-67:/drawable/app_logo.png"
+    }
+]

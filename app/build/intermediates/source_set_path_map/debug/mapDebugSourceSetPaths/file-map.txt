@@ -1,0 +1,68 @@
+com.faisal.financecalc.app-jetified-animation-release-0 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\0465e2f61dd3c4f7d3126fd21cb74285\transformed\jetified-animation-release\res
+com.faisal.financecalc.app-jetified-room-ktx-2.6.1-1 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\0b4a33c32369de938271b28522781b61\transformed\jetified-room-ktx-2.6.1\res
+com.faisal.financecalc.app-jetified-savedstate-ktx-1.2.1-2 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\0c58aec861262f9b4caf5d4d5d3d919f\transformed\jetified-savedstate-ktx-1.2.1\res
+com.faisal.financecalc.app-jetified-core-ktx-1.12.0-3 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\0dcfa0e5cf63fb1ea925ccaa0e47ee3d\transformed\jetified-core-ktx-1.12.0\res
+com.faisal.financecalc.app-jetified-play-services-base-18.0.1-4 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\19be1c070d070a413322816529847297\transformed\jetified-play-services-base-18.0.1\res
+com.faisal.financecalc.app-jetified-lifecycle-process-2.6.2-5 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\1b078765f1c7ebb0f5004684ec397d54\transformed\jetified-lifecycle-process-2.6.2\res
+com.faisal.financecalc.app-jetified-activity-1.8.1-6 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\1ce591a5ee1b10aec36b08bfaebdf599\transformed\jetified-activity-1.8.1\res
+com.faisal.financecalc.app-jetified-material-release-7 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\29af5fce48baedb4b2e87ca20877cc00\transformed\jetified-material-release\res
+com.faisal.financecalc.app-jetified-material-icons-core-release-8 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\2acbdbcb89c9a300dab53c1b2baca2ca\transformed\jetified-material-icons-core-release\res
+com.faisal.financecalc.app-core-runtime-2.2.0-9 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\31c7c9852a3868d56bfc5c5df705eff6\transformed\core-runtime-2.2.0\res
+com.faisal.financecalc.app-jetified-activity-compose-1.8.1-10 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\32b588a05e434c04766c9f6dc12c6f8a\transformed\jetified-activity-compose-1.8.1\res
+com.faisal.financecalc.app-jetified-material-ripple-release-11 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\40103be1eb68b3eb25cbc4e3402007c3\transformed\jetified-material-ripple-release\res
+com.faisal.financecalc.app-jetified-material3-1.1.1-12 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\40a07006a2f94b64a9d47f5507fb111c\transformed\jetified-material3-1.1.1\res
+com.faisal.financecalc.app-jetified-navigation-compose-2.7.5-13 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\423641197bd076f6429abae68cff2c58\transformed\jetified-navigation-compose-2.7.5\res
+com.faisal.financecalc.app-navigation-runtime-2.7.5-14 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\46bd4d955588ed4fccc6add32888adca\transformed\navigation-runtime-2.7.5\res
+com.faisal.financecalc.app-lifecycle-viewmodel-2.6.2-15 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\4b41b1dc6f0687ca49f26a67f97fdda2\transformed\lifecycle-viewmodel-2.6.2\res
+com.faisal.financecalc.app-jetified-lifecycle-viewmodel-ktx-2.6.2-16 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\4c5fe6e6e89d09107da4961e0156dfcd\transformed\jetified-lifecycle-viewmodel-ktx-2.6.2\res
+com.faisal.financecalc.app-navigation-common-ktx-2.7.5-17 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\51e9042e1926e1e8c86a4596e0f36d6e\transformed\navigation-common-ktx-2.7.5\res
+com.faisal.financecalc.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-18 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\52a5714c7dd6bd71d5454bb2c5a9b66c\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.2\res
+com.faisal.financecalc.app-jetified-lifecycle-viewmodel-compose-2.6.2-19 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\58055a28941b937f5b21478baf0c8fb0\transformed\jetified-lifecycle-viewmodel-compose-2.6.2\res
+com.faisal.financecalc.app-jetified-emoji2-1.4.0-20 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\58b094b85db257a3b23d544982912857\transformed\jetified-emoji2-1.4.0\res
+com.faisal.financecalc.app-jetified-customview-poolingcontainer-1.0.0-21 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\5bebf02c82bc5d497fd97680e5d32015\transformed\jetified-customview-poolingcontainer-1.0.0\res
+com.faisal.financecalc.app-jetified-startup-runtime-1.1.1-22 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\602d7ab1fa7f7b914c8e7be60bfb12fc\transformed\jetified-startup-runtime-1.1.1\res
+com.faisal.financecalc.app-jetified-activity-ktx-1.8.1-23 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\633332a2932571ae214d3f58a129be4b\transformed\jetified-activity-ktx-1.8.1\res
+com.faisal.financecalc.app-jetified-ui-test-manifest-1.5.1-24 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\6f1b923b3063fec9b77009fcd2286014\transformed\jetified-ui-test-manifest-1.5.1\res
+com.faisal.financecalc.app-lifecycle-runtime-2.6.2-25 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\6fa594b2036141ca37152e3ce44b4021\transformed\lifecycle-runtime-2.6.2\res
+com.faisal.financecalc.app-jetified-ui-util-release-26 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\74c3e9476e9a9e452bbdf66d5fa2ba77\transformed\jetified-ui-util-release\res
+com.faisal.financecalc.app-lifecycle-livedata-core-2.6.2-27 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\779a664524839ba11399b2a6575b44d2\transformed\lifecycle-livedata-core-2.6.2\res
+com.faisal.financecalc.app-lifecycle-livedata-2.6.2-28 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\79bd8e00883dbae7a9b1fad8e4cc1daf\transformed\lifecycle-livedata-2.6.2\res
+com.faisal.financecalc.app-jetified-profileinstaller-1.3.0-29 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\7d1a71b23e7df351ab8d0e0c5e45734c\transformed\jetified-profileinstaller-1.3.0\res
+com.faisal.financecalc.app-jetified-annotation-experimental-1.3.0-30 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\7d6c5a405e24c5905da692b180300e87\transformed\jetified-annotation-experimental-1.3.0\res
+com.faisal.financecalc.app-jetified-foundation-layout-release-31 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\849f0e9db3f1a6f3ea8610498bf55808\transformed\jetified-foundation-layout-release\res
+com.faisal.financecalc.app-jetified-firebase-common-20.4.2-32 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\895d5ce0bbad1db50b2e7b59e8b7b855\transformed\jetified-firebase-common-20.4.2\res
+com.faisal.financecalc.app-jetified-ui-release-33 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\8ae10d94616ebf740d296be9033af3f5\transformed\jetified-ui-release\res
+com.faisal.financecalc.app-appcompat-1.2.0-34 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\904a6e2a807c11c1de3cd2f1b5126a8e\transformed\appcompat-1.2.0\res
+com.faisal.financecalc.app-jetified-runtime-saveable-release-35 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\9055ecaa2c2f6d4979e8c1c301f6c190\transformed\jetified-runtime-saveable-release\res
+com.faisal.financecalc.app-jetified-ui-tooling-preview-release-36 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\92085ca8dd9e43b4f958f28988a8d512\transformed\jetified-ui-tooling-preview-release\res
+com.faisal.financecalc.app-biometric-1.1.0-37 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\92284140237a99dee72a1bda959feadf\transformed\biometric-1.1.0\res
+com.faisal.financecalc.app-sqlite-framework-2.4.0-38 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\93ada2fcab5316b951ec3adc4122012f\transformed\sqlite-framework-2.4.0\res
+com.faisal.financecalc.app-jetified-ui-unit-release-39 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\999972703e7dfbff3a52b9db8518d236\transformed\jetified-ui-unit-release\res
+com.faisal.financecalc.app-jetified-foundation-release-40 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\9a262bb4f5684a64f454327b16af29bb\transformed\jetified-foundation-release\res
+com.faisal.financecalc.app-jetified-play-services-basement-18.1.0-41 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\9bcce399a3507425429d43518d6dec30\transformed\jetified-play-services-basement-18.1.0\res
+com.faisal.financecalc.app-room-runtime-2.6.1-42 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\9d4c0d70db92f5ccf01aa4a3254c92dd\transformed\room-runtime-2.6.1\res
+com.faisal.financecalc.app-jetified-ui-tooling-data-release-43 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\a043254ea58db9043114826ef366230e\transformed\jetified-ui-tooling-data-release\res
+com.faisal.financecalc.app-navigation-common-2.7.5-44 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\a0c883795cd84e8440412a9ca5728506\transformed\navigation-common-2.7.5\res
+com.faisal.financecalc.app-sqlite-2.4.0-45 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\a24cb4bb9da7ccd9ad1337470c42ffad\transformed\sqlite-2.4.0\res
+com.faisal.financecalc.app-jetified-animation-core-release-46 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\a4eff69ff678486c1ceaba0789f99a68\transformed\jetified-animation-core-release\res
+com.faisal.financecalc.app-browser-1.4.0-47 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\a87c6e6832e2ed73ce67d9df96b36a7f\transformed\browser-1.4.0\res
+com.faisal.financecalc.app-core-1.12.0-48 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\aae54a5b8e89758cd12618704ad0b30c\transformed\core-1.12.0\res
+com.faisal.financecalc.app-jetified-ui-tooling-release-49 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\b86f01a90dcf0feb328c76bd72cef214\transformed\jetified-ui-tooling-release\res
+com.faisal.financecalc.app-jetified-appcompat-resources-1.2.0-50 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\bd6a6efe2e7b274ac6dd1e75168c31ab\transformed\jetified-appcompat-resources-1.2.0\res
+com.faisal.financecalc.app-jetified-ui-geometry-release-51 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\d4a3cd00902abeab45ea5226b9827870\transformed\jetified-ui-geometry-release\res
+com.faisal.financecalc.app-jetified-lifecycle-runtime-ktx-2.6.2-52 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\e8b956db4d2e0073dd56f8d72bc0f20c\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
+com.faisal.financecalc.app-jetified-ui-text-release-53 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\edad0816274e42eb4d0541fb8f46a7a3\transformed\jetified-ui-text-release\res
+com.faisal.financecalc.app-jetified-runtime-release-54 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\ee03c83c69cede05ab29a5080bffd613\transformed\jetified-runtime-release\res
+com.faisal.financecalc.app-fragment-1.2.5-55 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\ee80ee59f42a937c4135c86745b47b96\transformed\fragment-1.2.5\res
+com.faisal.financecalc.app-jetified-savedstate-1.2.1-56 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\efdd51df467bc36c0f241e2ffbb8ea81\transformed\jetified-savedstate-1.2.1\res
+com.faisal.financecalc.app-jetified-ui-graphics-release-57 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\f6dc8e0a5d623a2562aea2435dbc7174\transformed\jetified-ui-graphics-release\res
+com.faisal.financecalc.app-jetified-material-icons-extended-release-58 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\f6f4f14371391801ea1ba4f93d25ad68\transformed\jetified-material-icons-extended-release\res
+com.faisal.financecalc.app-navigation-runtime-ktx-2.7.5-59 C:\Users\Faisa\.gradle\caches\9.0-milestone-1\transforms\fa0b74ec918301d7db3d72773a8650a2\transformed\navigation-runtime-ktx-2.7.5\res
+com.faisal.financecalc.app-res-60 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\generated\res\processDebugGoogleServices
+com.faisal.financecalc.app-resValues-61 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\generated\res\resValues\debug
+com.faisal.financecalc.app-updated_navigation_xml-62 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\generated\updated_navigation_xml\debug
+com.faisal.financecalc.app-packageDebugResources-63 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.faisal.financecalc.app-packageDebugResources-64 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.faisal.financecalc.app-debug-65 C:\Users\Faisa\Desktop\Andalousi Finance\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.faisal.financecalc.app-debug-66 C:\Users\Faisa\Desktop\Andalousi Finance\app\src\debug\res
+com.faisal.financecalc.app-main-67 C:\Users\Faisa\Desktop\Andalousi Finance\app\src\main\res
