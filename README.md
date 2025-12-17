@@ -24,3 +24,4 @@ This is a complete Native Android Application (Kotlin + Compose + Room) for mana
 
 ## specific Data
 The app comes pre-populated with the requested data (Sparkasse: 1634, Shop Items, etc.) on the first run. You can edit or delete these entries in the app.
+"# Andalousi-Finance-app" 
