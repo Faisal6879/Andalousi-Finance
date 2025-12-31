@@ -57,7 +57,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun FinanceCalcTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true, // Force Dark Theme for Premium Banking Look
     // Disable dynamic color to enforce our premium design
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit

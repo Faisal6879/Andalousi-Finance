@@ -195,6 +195,8 @@ class MainViewModel(application: Application, private val repository: FirestoreR
         return repository.getHistoryForEntry(entryId)
     }
 
+    val allHistory: Flow<List<HistoryEntry>> = repository.getAllHistory()
+
     fun addShopItem(item: ShopItem) = viewModelScope.launch {
         repository.insertShopItem(item)
     }

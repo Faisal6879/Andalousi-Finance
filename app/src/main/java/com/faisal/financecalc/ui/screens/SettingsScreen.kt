@@ -34,58 +34,43 @@ fun SettingsScreen(viewModel: MainViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Appearance Section
-        Text(strings.appearance, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        Spacer(modifier = Modifier.height(8.dp))
-        
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(strings.darkMode, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
-            Switch(checked = isDarkMode, onCheckedChange = { viewModel.toggleDarkMode() })
+        SettingsGroupCard(title = strings.appearance) {
+             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(strings.darkMode, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+                Switch(
+                    checked = isDarkMode, 
+                    onCheckedChange = { viewModel.toggleDarkMode() },
+                    colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colorScheme.primary)
+                )
+            }
         }
         
-        Divider()
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         // General Section
-        Text(strings.general, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        Spacer(modifier = Modifier.height(8.dp))
+        SettingsGroupCard(title = strings.general) {
+             // Currency
+            SettingItemRow(
+                icon = Icons.Default.AttachMoney,
+                title = strings.currencySymbol,
+                value = currency,
+                onClick = { showCurrencyDialog = true }
+            )
+            
+            Divider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.3f))
 
-        // Currency Setting
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showCurrencyDialog = true }
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-             Icon(Icons.Default.AttachMoney, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-             Spacer(modifier = Modifier.width(16.dp))
-             Column(modifier = Modifier.weight(1f)) {
-                 Text(strings.currencySymbol, style = MaterialTheme.typography.bodyLarge)
-                 Text(currency, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-             }
-             Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-        }
-        
-        Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.5f))
-
-        // Language Setting
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showLanguageDialog = true }
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-             Icon(Icons.Default.Language, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-             Spacer(modifier = Modifier.width(16.dp))
-             Column(modifier = Modifier.weight(1f)) {
-                 Text(strings.language, style = MaterialTheme.typography.bodyLarge)
-                 Text(language, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-             }
-             Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+            // Language
+            SettingItemRow(
+                icon = Icons.Default.Language,
+                title = strings.language,
+                value = language,
+                onClick = { showLanguageDialog = true }
+            )
         }
     }
 
@@ -151,5 +136,55 @@ fun SettingsScreen(viewModel: MainViewModel) {
                  TextButton(onClick = { showLanguageDialog = false }) { Text(strings.cancel) }
             }
         )
+    }
+}
+@Composable
+fun SettingsGroupCard(title: String, content: @Composable ColumnScope.() -> Unit) {
+    Column {
+        Text(
+            text = title, 
+            style = MaterialTheme.typography.labelLarge, 
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+        )
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                content()
+            }
+        }
+    }
+}
+
+@Composable
+fun SettingItemRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    value: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+         Icon(
+             imageVector = icon, 
+             contentDescription = null, 
+             tint = MaterialTheme.colorScheme.primary,
+             modifier = Modifier.size(24.dp).padding(end = 4.dp)
+         )
+         Spacer(modifier = Modifier.width(16.dp))
+         Column(modifier = Modifier.weight(1f)) {
+             Text(title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+             Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+         }
+         Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

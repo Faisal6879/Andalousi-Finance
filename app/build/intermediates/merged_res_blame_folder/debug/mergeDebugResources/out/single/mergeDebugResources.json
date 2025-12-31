@@ -1,22 +1,38 @@
 [
     {
-        "merged": "com.faisal.financecalc.app-debug-65:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.faisal.financecalc.app-main-67:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable_app_icon.jpg.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable\\app_icon.jpg"
     },
     {
-        "merged": "com.faisal.financecalc.app-debug-65:/xml_data_extraction_rules.xml.flat",
-        "source": "com.faisal.financecalc.app-main-67:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "com.faisal.financecalc.app-debug-65:/xml_backup_rules.xml.flat",
-        "source": "com.faisal.financecalc.app-main-67:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.faisal.financecalc.app-debug-65:/drawable_app_icon.jpg.flat",
-        "source": "com.faisal.financecalc.app-main-67:/drawable/app_icon.jpg"
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable_app_logo.xml.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable\\app_logo.xml"
     },
     {
-        "merged": "com.faisal.financecalc.app-debug-65:/drawable_app_logo.png.flat",
-        "source": "com.faisal.financecalc.app-main-67:/drawable/app_logo.png"
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable_app_logo.png.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable\\app_logo.png"
+    },
+    {
+        "merged": "com.faisal.financecalc.app-debug-65:/drawable-anydpi-v26_app_logo.xml.flat",
+        "source": "com.faisal.financecalc.app-main-67:/drawable-anydpi-v26/app_logo.xml"
+    },
+    {
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable_app_logo_source.png.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable\\app_logo_source.png"
+    },
+    {
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-debug-65:\\drawable-anydpi-v26_app_logo.xml.flat",
+        "source": "C:\\Users\\Faisa\\.gradle\\daemon\\9.0-milestone-1\\com.faisal.financecalc.app-main-67:\\drawable-anydpi-v26\\app_logo.xml"
     }
 ]

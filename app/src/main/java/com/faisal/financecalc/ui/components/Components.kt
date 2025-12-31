@@ -1,6 +1,7 @@
 package com.faisal.financecalc.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.TrendingDown
 import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material.icons.filled.Wifi
+import androidx.compose.ui.draw.rotate
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,24 +33,23 @@ fun SummaryCard(
     icon: ImageVector? = null,
     currencySymbol: String = "€"
 ) {
-    // ... (brush logic same)
+    // Premium Gradient Logic
     val brush = if (backgroundColor == MaterialTheme.colorScheme.primaryContainer) {
-        androidx.compose.ui.graphics.Brush.linearGradient(
+        androidx.compose.ui.graphics.Brush.verticalGradient(
             colors = listOf(
-                MaterialTheme.colorScheme.primary,
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                Color(0xFF2563EB), // Primary Blue
+                Color(0xFF1E40AF)  // Darker Blue
             )
         )
     } else {
-        androidx.compose.ui.graphics.Brush.linearGradient(
+        androidx.compose.ui.graphics.Brush.verticalGradient(
             colors = listOf(
                 backgroundColor,
-                backgroundColor.copy(alpha = 0.8f)
+                backgroundColor.copy(alpha = 0.9f)
             )
         )
     }
     
-    // Text Color
     val contentColor = if (backgroundColor == MaterialTheme.colorScheme.primaryContainer) 
         MaterialTheme.colorScheme.onPrimary 
     else 
@@ -56,37 +58,66 @@ fun SummaryCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(110.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            .height(130.dp), // Increased height
+        shape = RoundedCornerShape(22.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(brush)
-                .padding(16.dp)
         ) {
+            // Watermark Icon
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = contentColor.copy(alpha = 0.1f),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(90.dp)
+                        .offset(x = 20.dp, y = 20.dp)
+                )
+            }
+            
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (icon != null) {
-                        Icon(imageVector = icon, contentDescription = null, tint = contentColor.copy(alpha = 0.9f))
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .background(contentColor.copy(alpha = 0.2f), RoundedCornerShape(10.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(imageVector = icon, contentDescription = null, tint = contentColor, modifier = Modifier.size(18.dp))
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
                     }
                     Text(
                         text = title.uppercase(),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = contentColor.copy(alpha = 0.8f),
-                        letterSpacing = 1.sp
+                        style = MaterialTheme.typography.labelSmall,
+                        color = contentColor.copy(alpha = 0.9f),
+                        letterSpacing = 1.2.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
+                
                 Text(
                     text = "${String.format("%.2f", amount)} $currencySymbol",
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        shadow = androidx.compose.ui.graphics.Shadow(
+                            color = Color.Black.copy(alpha=0.1f),
+                            offset = androidx.compose.ui.geometry.Offset(0f, 2f),
+                            blurRadius = 4f
+                        )
+                    ),
+                    fontWeight = FontWeight.ExtraBold,
                     color = contentColor
                 )
             }
@@ -101,12 +132,14 @@ fun EntryRow(
     onDelete: () -> Unit,
     currencySymbol: String = "€"
 ) {
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp, horizontal = 4.dp),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            .padding(vertical = 8.dp, horizontal = 2.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.3f)),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Row(
@@ -116,14 +149,37 @@ fun EntryRow(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Icon Placeholder based on entry type
+            val isPositive = entry.type == com.faisal.financecalc.data.EntryType.INCOME || entry.type == com.faisal.financecalc.data.EntryType.DEBT
+            val iconColor = if(isPositive) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(iconColor.copy(alpha=0.1f), RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                 Icon(
+                     if(isPositive) Icons.Default.TrendingUp else Icons.Default.TrendingDown,
+                     contentDescription = null,
+                     tint = iconColor,
+                     modifier = Modifier.size(24.dp)
+                 )
+            }
+            
+            Spacer(modifier = Modifier.width(16.dp))
+
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = entry.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
-                Text(text = entry.category, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
                 Text(
-                    text = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(java.util.Date(entry.dateTimestamp)),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.Gray.copy(alpha = 0.7f),
-                    modifier = Modifier.padding(top = 2.dp)
+                    text = entry.name, 
+                    style = MaterialTheme.typography.titleMedium, 
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = entry.category + if(entry.isAutoCalculated) " ${strings.auto}" else "", 
+                    style = MaterialTheme.typography.bodySmall, 
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 
                 if (entry.subEntries.isNotEmpty()) {
@@ -132,12 +188,12 @@ fun EntryRow(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = "• ${sub.name}: ",
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
                                 text = "${if (sub.amount % 1.0 == 0.0) sub.amount.toInt().toString() else sub.amount.toString()} $currencySymbol",
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -145,12 +201,13 @@ fun EntryRow(
                     }
                 }
             }
-            Column(horizontalAlignment = Alignment.End) {
+            
+            Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(horizontal = 8.dp)) {
                 Text(
                     text = "${if (entry.amount % 1.0 == 0.0) entry.amount.toInt().toString() else entry.amount.toString()} $currencySymbol",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = if (entry.excludedFromTotal) Color(0xFFFFC107) else if(entry.type == com.faisal.financecalc.data.EntryType.INCOME) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error 
+                    fontWeight = FontWeight.ExtraBold,
+                    color = if (entry.excludedFromTotal) Color(0xFFFFC107) else iconColor 
                 )
                 if (entry.excludedFromTotal) {
                     Text(
@@ -164,14 +221,12 @@ fun EntryRow(
             if (!entry.isAutoCalculated) {
                 Row {
                     IconButton(onClick = onEdit) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit", tint = MaterialTheme.colorScheme.primary)
+                        Icon(Icons.Default.Edit, contentDescription = strings.editEntry, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     IconButton(onClick = onDelete) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                        Icon(Icons.Default.Delete, contentDescription = strings.delete, tint = MaterialTheme.colorScheme.error.copy(alpha=0.8f))
                     }
                 }
-            } else {
-                Text("(Auto)", style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(start = 8.dp), color = MaterialTheme.colorScheme.secondary)
             }
         }
     }
@@ -185,13 +240,14 @@ fun ShopItemRow(
     onDelete: () -> Unit,
     currencySymbol: String = "€"
 ) {
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp, horizontal = 4.dp),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha=0.5f))
+            .padding(vertical = 8.dp, horizontal = 2.dp),
+        shape = RoundedCornerShape(18.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface) // Use surface for clean look
     ) {
         Row(
             modifier = Modifier
@@ -200,21 +256,40 @@ fun ShopItemRow(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Icon Placeholder (Optional, strictly visual)
+             Box(
+                 modifier = Modifier
+                     .size(48.dp)
+                     .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha=0.4f), RoundedCornerShape(12.dp)),
+                 contentAlignment = Alignment.Center
+             ) {
+                 Text(
+                     text = item.name.take(1).uppercase(),
+                     style = MaterialTheme.typography.titleMedium,
+                     fontWeight = FontWeight.Bold,
+                     color = MaterialTheme.colorScheme.onSecondaryContainer
+                 )
+             }
+             
+            Spacer(modifier = Modifier.width(16.dp))
+
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = item.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
                 Text(
-                    text = "${item.count} x (Buy: ${item.purchasePrice} $currencySymbol)",
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = item.name, 
+                    style = MaterialTheme.typography.titleMedium, 
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "${item.count} ${strings.itemsCount} • ${strings.buyPrice}: ${String.format("%.2f", item.purchasePrice)} $currencySymbol",
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            
             // Value Column
             Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(horizontal = 8.dp)) {
-                Text(
-                    text = "Total Value",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha=0.6f)
-                )
                 Text(
                     text = "${String.format("%.2f", item.count * item.purchasePrice)} $currencySymbol",
                     style = MaterialTheme.typography.titleMedium,
@@ -222,12 +297,14 @@ fun ShopItemRow(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
+            
+            // Actions
             Row {
                 IconButton(onClick = onEdit) {
-                    Icon(Icons.Default.Edit, contentDescription = "Edit")
+                    Icon(Icons.Default.Edit, contentDescription = strings.editEntry, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 IconButton(onClick = onDelete) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                    Icon(Icons.Default.Delete, contentDescription = strings.delete, tint = MaterialTheme.colorScheme.error.copy(alpha=0.8f))
                 }
             }
         }
@@ -244,18 +321,24 @@ fun PremiumCreditCard(
     endColor: Color = MaterialTheme.colorScheme.secondary,
     currencySymbol: String = "€"
 ) {
-    // Metallic/Gradient Look
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
+    // Metallic/Gradient Look (Gold/Bronze)
     val brush = androidx.compose.ui.graphics.Brush.linearGradient(
-        colors = listOf(startColor, endColor)
+        colors = listOf(
+            startColor,
+            endColor
+        ),
+        start = androidx.compose.ui.geometry.Offset(0f, 0f),
+        end = androidx.compose.ui.geometry.Offset(1000f, 1000f) // Diagonal
     )
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .padding(16.dp),
+            .height(200.dp) // Maintain standard credit card aspect ratio height
+            .padding(8.dp), // Reduced padding for better list fit
         shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
@@ -264,78 +347,150 @@ fun PremiumCreditCard(
                 .background(brush)
                 .padding(24.dp)
         ) {
-            // ... (Card content structure same)
+            // Background Pattern/Texture (Optional subtle noise can be added here)
+            
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                // Top Row: Chip and Contactless
+                // Top Row: Chip and Bank Logo
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Simulating Chip Icon
+                    // Chip
                     Box(
                         modifier = Modifier
-                            .size(40.dp, 30.dp)
-                            .background(Color(0xFFFFD700), RoundedCornerShape(4.dp))
+                            .size(50.dp, 36.dp)
+                            .background(
+                                color = Color(0xFFFFD700).copy(alpha=0.8f), 
+                                shape = RoundedCornerShape(6.dp)
+                            )
+                            .border(1.dp, Color.Black.copy(alpha=0.1f), RoundedCornerShape(6.dp))
                     )
                     
-                    Text(
-                        text = "BANK",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.White.copy(alpha = 0.8f),
-                        fontWeight = FontWeight.Bold
+                    // Contactless Icon or Bank Name
+                    Icon(
+                        androidx.compose.material.icons.Icons.Default.Wifi,
+                        contentDescription = null,
+                        tint = Color.White.copy(alpha=0.7f),
+                        modifier = Modifier.rotate(90f).size(28.dp)
                     )
                 }
 
-                // Balance
-                Column {
+                // Middle: Card Number (The "Other Number")
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = "Total Balance",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.White.copy(alpha = 0.7f)
-                    )
-                    Text(
-                        text = "${String.format("%.2f", balance)} $currencySymbol",
-                        style = MaterialTheme.typography.displayLarge,
+                        text = cardNumber,
+                        style = MaterialTheme.typography.headlineMedium,
                         color = Color.White,
-                        fontSize = 32.sp
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 2.sp,
+                        maxLines = 1
                     )
                 }
 
-                // Bottom Row: Number and Name
+                // Bottom Row: Name and Valid Thru
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
                         Text(
-                            text = holderName.uppercase(),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color.White.copy(alpha = 0.9f)
+                            text = "CARD HOLDER",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White.copy(alpha = 0.6f),
+                            fontSize = 8.sp // Micro text
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = cardNumber,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.White.copy(alpha = 0.8f),
-                            fontWeight = FontWeight.SemiBold,
-                            letterSpacing = 2.sp
+                            text = holderName.uppercase(),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White.copy(alpha = 0.9f),
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
                         )
                     }
                     
-                    // Logo circle
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(Color.White.copy(alpha=0.5f), androidx.compose.foundation.shape.CircleShape)
-                    )
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(
+                            text = "VALID THRU",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White.copy(alpha = 0.6f),
+                            fontSize = 8.sp
+                        )
+                        Text(
+                             text = "12/28", // Placeholder or pass as param if available
+                             style = MaterialTheme.typography.bodyMedium,
+                             color = Color.White,
+                             fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+// Helper to disable conflicting previews or unused code
+
+
+@Composable
+fun FinanceInputLabel(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelSmall,
+        color = Color(0xFF94A3B8), // Slate 400
+        modifier = Modifier.padding(bottom = 6.dp, start = 4.dp)
+    )
+}
+
+@Composable
+fun FinanceInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String = "",
+    enabled: Boolean = true,
+    keyboardOptions: androidx.compose.foundation.text.KeyboardOptions = androidx.compose.foundation.text.KeyboardOptions.Default,
+    modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = androidx.compose.runtime.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+) {
+    androidx.compose.foundation.text.BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        enabled = enabled, // When false, it will be handled by custom styling or alpha below if needed
+        readOnly = readOnly,
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = if(enabled) Color.White else Color.White.copy(alpha=0.5f)),
+        keyboardOptions = keyboardOptions,
+        singleLine = true,
+        interactionSource = interactionSource,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .background(Color(0xFF0B1220), RoundedCornerShape(12.dp))
+            .border(1.dp, Color(0xFF334155), RoundedCornerShape(12.dp))
+            .padding(horizontal = 16.dp),
+        decorationBox = { innerTextField ->
+            Box(contentAlignment = Alignment.CenterStart) {
+                if (value.isEmpty() && placeholder.isNotEmpty()) {
+                    Text(placeholder, color = Color(0xFF475569)) // Slate 600
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Box(modifier = Modifier.weight(1f)) {
+                         innerTextField()
+                    }
+                    if (trailingIcon != null) {
+                        trailingIcon()
+                    }
+                }
+            }
+        }
+    )
+}

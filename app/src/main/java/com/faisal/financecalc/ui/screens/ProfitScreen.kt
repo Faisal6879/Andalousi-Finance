@@ -1,6 +1,7 @@
 package com.faisal.financecalc.ui.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,7 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.foundation.border
 import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.faisal.financecalc.ui.components.SummaryCard
 import com.faisal.financecalc.viewmodel.MainViewModel
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.window.Dialog
+import com.faisal.financecalc.ui.components.FinanceInputField
+import com.faisal.financecalc.ui.components.FinanceInputLabel
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun ProfitScreen(viewModel: MainViewModel) {
@@ -40,10 +53,16 @@ fun ProfitScreen(viewModel: MainViewModel) {
     var itemToDelete by remember { mutableStateOf<com.faisal.financecalc.data.SoldItem?>(null) }
     var editingItem by remember { mutableStateOf<com.faisal.financecalc.data.SoldItem?>(null) }
     var selectedMonthYear by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    
+    // Sorting (New)
+    var sortOption by remember { mutableStateOf(SortOption.DATE_DESC) }
+    var showSortMenu by remember { mutableStateOf(false) }
 
     // ... (rest of the content)
 
 
+
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
 
     Scaffold(
         floatingActionButton = {
@@ -52,163 +71,237 @@ fun ProfitScreen(viewModel: MainViewModel) {
                 containerColor = com.faisal.financecalc.ui.theme.SuccessGreen,
                 contentColor = Color.White
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Profit")
+                Icon(Icons.Default.Add, contentDescription = strings.addProfitManually)
             }
         }
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Header Card: Current Month Profit
-            SummaryCard(
-                title = "Profit (Current Month)",
-                amount = currentMonthProfit,
-                backgroundColor = com.faisal.financecalc.ui.theme.SuccessGreen.copy(alpha = 0.9f),
-                icon = Icons.Default.TrendingUp
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            // Current Month Breakdown
-            if (currentMonthItems.isNotEmpty() || true) { // Always show header to allow adding even if empty
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Sold this Month:", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    IconButton(onClick = { showManualProfitDialog = true }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add Manual Sale", tint = com.faisal.financecalc.ui.theme.SuccessGreen)
-                    }
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                    modifier = Modifier.fillMaxWidth().heightIn(max = 250.dp) // Slightly taller
-                ) {
-                    LazyColumn(modifier = Modifier.padding(8.dp)) {
-                        items(currentMonthItems) { item ->
-                             Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { editingItem = item } // Click to edit
-                                    .padding(vertical = 8.dp, horizontal = 4.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(item.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
-                                    Text(
-                                        text = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(java.util.Date(item.dateTimestamp)),
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = Color.Gray
-                                    )
-                                }
-                                
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        "+${String.format("%.2f", item.profit)} €", 
-                                        style = MaterialTheme.typography.bodyMedium, 
-                                        fontWeight = FontWeight.Bold, 
-                                        color = com.faisal.financecalc.ui.theme.SuccessGreen
-                                    )
-                                    // IconButton size optimization for row
-                                    IconButton(
-                                        onClick = { editingItem = item },
-                                        modifier = Modifier.size(32.dp).padding(start = 8.dp)
-                                    ) {
-                                        Icon(Icons.Default.Edit, contentDescription = "Edit", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
-                                    }
-                                    IconButton(
-                                        onClick = { 
-                                            itemToDelete = item
-                                            showDeleteItemDialog = true
-                                        },
-                                        modifier = Modifier.size(32.dp)
-                                    ) {
-                                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error.copy(alpha=0.7f), modifier = Modifier.size(16.dp))
-                                    }
-                                }
-                            }
-                            Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.3f))
-                        }
-                    }
-                }
-            } else {
-                 Text("No sales this month yet.", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+            item {
+                SummaryCard(
+                    title = strings.profitLabel,
+                    amount = currentMonthProfit,
+                    backgroundColor = com.faisal.financecalc.ui.theme.SuccessGreen.copy(alpha = 0.9f),
+                    icon = Icons.Default.TrendingUp
+                )
             }
-            
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Text("All History", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(12.dp))
 
-            LazyColumn(
-                contentPadding = PaddingValues(bottom = 80.dp)
-            ) {
-                if (monthlyProfits.isEmpty()) {
-                    item {
-                        Text(
-                            "No profit history yet. Sell items in 'Shop' or add manually.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-
-                items(monthlyProfits) { history ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 6.dp)
-                            .clickable {
-                                selectedMonthYear = history.month to history.year
-                                showHistoryDetailDialog = true
-                            },
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                    ) {
+            // Current Month Breakdown
+            item {
+                if (currentMonthItems.isNotEmpty() || true) {
+                    Column {
                         Row(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column {
-                                Text(
-                                    "${history.month}/${history.year}", 
-                                    style = MaterialTheme.typography.titleMedium, 
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    "Tap for details", 
-                                    style = MaterialTheme.typography.labelSmall, 
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
+                            Text(strings.sales, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            
+                            Row {
+                                 // Sort Button
+                                Box {
+                                    IconButton(onClick = { showSortMenu = true }) {
+                                        Icon(Icons.Default.Sort, contentDescription = "Sort")
+                                    }
+                                    DropdownMenu(
+                                        expanded = showSortMenu,
+                                        onDismissRequest = { showSortMenu = false },
+                                        modifier = Modifier
+                                            .background(Color(0xFF1E293B))
+                                            .border(1.dp, Color(0xFF334155), RoundedCornerShape(12.dp))
+                                    ) {
+                                        DropdownMenuItem(
+                                            text = { Text("Newest First", color = Color.White, fontWeight = FontWeight.Medium) },
+                                            leadingIcon = { Icon(Icons.Default.AccessTime, null, tint = Color(0xFF94A3B8)) },
+                                            onClick = { sortOption = SortOption.DATE_DESC; showSortMenu = false },
+                                            modifier = Modifier.background(if(sortOption == SortOption.DATE_DESC) Color(0xFF334155) else Color.Transparent)
+                                        )
+                                        Divider(color = Color(0xFF334155), modifier = Modifier.padding(horizontal = 8.dp))
+                                        DropdownMenuItem(
+                                            text = { Text("Profit: High to Low", color = Color.White, fontWeight = FontWeight.Medium) },
+                                            leadingIcon = { Icon(Icons.Default.TrendingUp, null, tint = com.faisal.financecalc.ui.theme.SuccessGreen) },
+                                            onClick = { sortOption = SortOption.AMOUNT_DESC; showSortMenu = false },
+                                            modifier = Modifier.background(if(sortOption == SortOption.AMOUNT_DESC) Color(0xFF334155) else Color.Transparent)
+                                        )
+                                        DropdownMenuItem(
+                                            text = { Text("Profit: Low to High", color = Color.White, fontWeight = FontWeight.Medium) },
+                                            leadingIcon = { Icon(Icons.Default.TrendingDown, null, tint = MaterialTheme.colorScheme.error) },
+                                            onClick = { sortOption = SortOption.AMOUNT_ASC; showSortMenu = false },
+                                            modifier = Modifier.background(if(sortOption == SortOption.AMOUNT_ASC) Color(0xFF334155) else Color.Transparent)
+                                        )
+                                    }
+                                }
+                                
+                                IconButton(onClick = { showManualProfitDialog = true }) {
+                                    Icon(Icons.Default.Add, contentDescription = strings.addProfitManually, tint = com.faisal.financecalc.ui.theme.SuccessGreen)
+                                }
                             }
-                            Text(
-                                "${String.format("%.2f", history.profit)} €", 
-                                style = MaterialTheme.typography.headlineSmall, 
-                                fontWeight = FontWeight.Bold, 
-                                color = com.faisal.financecalc.ui.theme.SuccessGreen
-                            )
+                        }
+                        
+                        // Sort Logic (Logic unmodified, purely visual grouping change)
+                        val sortedItems = remember(currentMonthItems, sortOption) {
+                            when(sortOption) {
+                                SortOption.DATE_DESC -> currentMonthItems.sortedByDescending { it.dateTimestamp }
+                                SortOption.AMOUNT_DESC -> currentMonthItems.sortedByDescending { it.profit }
+                                SortOption.AMOUNT_ASC -> currentMonthItems.sortedBy { it.profit }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                        
+                        // Sold Items List Box - Now using Column instead of LazyColumn
+                        Card(
+                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                             shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                             border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.3f)),
+                             modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                sortedItems.forEach { item ->
+                                    // Individual Sold Item Row (Premium)
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable { editingItem = item }
+                                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                                            // Visual Icon / Bullet
+                                            Box(
+                                                modifier = Modifier.size(8.dp).background(com.faisal.financecalc.ui.theme.SuccessGreen, androidx.compose.foundation.shape.CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(12.dp))
+                                            Column {
+                                                Text(item.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+                                                Text(
+                                                    text = java.text.SimpleDateFormat("dd MMM yyyy", java.util.Locale.getDefault()).format(java.util.Date(item.dateTimestamp)),
+                                                    style = MaterialTheme.typography.labelSmall,
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                            }
+                                        }
+                                        
+                                        Column(horizontalAlignment = Alignment.End) {
+                                            Text(
+                                                "+${String.format("%.2f", item.profit)} €", 
+                                                style = MaterialTheme.typography.bodyLarge, 
+                                                fontWeight = FontWeight.Bold, 
+                                                color = com.faisal.financecalc.ui.theme.SuccessGreen
+                                            )
+                                            
+                                            // Actions (Subtle)
+                                            Row(modifier = Modifier.padding(top = 2.dp)) {
+                                                 Icon(
+                                                    Icons.Default.Edit, 
+                                                    contentDescription = "Edit", 
+                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.4f),
+                                                    modifier = Modifier.size(16.dp).clickable { editingItem = item }
+                                                )
+                                                Spacer(modifier = Modifier.width(12.dp))
+                                                Icon(
+                                                    Icons.Default.Delete, 
+                                                    contentDescription = "Delete", 
+                                                    tint = MaterialTheme.colorScheme.error.copy(alpha=0.4f),
+                                                    modifier = Modifier.size(16.dp).clickable { 
+                                                        itemToDelete = item
+                                                        showDeleteItemDialog = true
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
+                                    if (item != sortedItems.last()) {
+                                        Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha=0.2f))
+                                    }
+                                }
+                            }
                         }
                     }
+                } else {
+                     Text("No sales this month.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                
-                if (monthlyProfits.isNotEmpty()) {
-                    item {
-                        Box(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), contentAlignment = Alignment.Center) {
-                             TextButton(onClick = { showResetConfirmDialog = true }) {
-                                 Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error)
-                                 Spacer(modifier = Modifier.width(4.dp))
-                                 Text("Reset All History", color = MaterialTheme.colorScheme.error)
-                             }
+            }
+            
+            // Monthly Profits Section
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(strings.monthlyProfits, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                ) {
+                    Column {
+                        // Header Row
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(strings.monthLabel, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                            Text(strings.sales, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                            Text(strings.profitLabel, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), textAlign = androidx.compose.ui.text.style.TextAlign.End)
+                        }
+
+                        monthlyProfits.forEach { profit ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { 
+                                        selectedMonthYear = profit.month to profit.year
+                                        showHistoryDetailDialog = true 
+                                    }
+                                    .padding(12.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text("${profit.month}/${profit.year}", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                                Text("Tap for details", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                                Text(
+                                    "${String.format("%.2f", profit.profit)} €", 
+                                    style = MaterialTheme.typography.bodyMedium, 
+                                    fontWeight = FontWeight.Bold, 
+                                    color = com.faisal.financecalc.ui.theme.SuccessGreen, 
+                                    modifier = Modifier.weight(1f), 
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.End
+                                )
+                            }
+                            if (profit != monthlyProfits.last()) {
+                                Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
+                            }
+                        }
+                        
+                        if (monthlyProfits.isNotEmpty()) {
+                            Box(modifier = Modifier.fillMaxWidth().padding(top = 24.dp, bottom = 24.dp), contentAlignment = Alignment.Center) {
+                                 OutlinedButton(
+                                     onClick = { showResetConfirmDialog = true },
+                                     border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha=0.5f))
+                                 ) {
+                                     Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                                     Spacer(modifier = Modifier.width(8.dp))
+                                     Text("Reset History", color = MaterialTheme.colorScheme.error)
+                                 }
+                            }
                         }
                     }
                 }
@@ -345,6 +438,7 @@ fun ManualProfitDialog(
     onDismiss: () -> Unit,
     onConfirm: (Double, Int, Int, String) -> Unit
 ) {
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     var name by remember { mutableStateOf("") }
     var profitAmount by remember { mutableStateOf("") }
     var month by remember { mutableStateOf("") }
@@ -357,63 +451,85 @@ fun ManualProfitDialog(
         year = calendar.get(java.util.Calendar.YEAR).toString()
     }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Add Profit manually") },
-        text = {
-            Column {
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text("Description / Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = profitAmount,
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(strings.addProfitManually, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = Color.White)
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                FinanceInputLabel(strings.descriptionName)
+                FinanceInputField(value = name, onValueChange = { name = it })
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                FinanceInputLabel("${strings.profitAmount} (€)")
+                FinanceInputField(
+                    value = profitAmount, 
                     onValueChange = { profitAmount = it },
-                    label = { Text("Profit Amount (€)") },
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    OutlinedTextField(
-                        value = month,
-                        onValueChange = { month = it },
-                        label = { Text("Month (1-12)") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    OutlinedTextField(
-                        value = year,
-                        onValueChange = { year = it },
-                        label = { Text("Year") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
-                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        FinanceInputLabel(strings.monthRange)
+                        FinanceInputField(
+                            value = month, 
+                            onValueChange = { month = it },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        FinanceInputLabel(strings.yearLabel)
+                        FinanceInputField(
+                            value = year, 
+                            onValueChange = { year = it },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                        )
+                    }
                 }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                val p = profitAmount.toDoubleOrNull()
-                val m = month.toIntOrNull()
-                val y = year.toIntOrNull()
-                if (p != null && m != null && y != null) {
-                    onConfirm(p, m, y, name.ifBlank { "Manual Entry" })
+                
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = onDismiss, 
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF334155)),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    ) {
+                        Text(strings.cancel, color = Color(0xFFCBD5E1))
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        onClick = {
+                            val p = profitAmount.toDoubleOrNull()
+                            val m = month.toIntOrNull()
+                            val y = year.toIntOrNull()
+                            if (p != null && m != null && y != null) {
+                                onConfirm(p, m, y, name.ifBlank { "Manual Entry" })
+                            }
+                        }, 
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    ) {
+                        Text(strings.save, color = Color.White, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }) {
-                Text("Add")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -422,66 +538,95 @@ fun EditProfitDialog(
     onDismiss: () -> Unit,
     onConfirm: (Double, Int, Int, String) -> Unit
 ) {
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     var name by remember { mutableStateOf(item.name) }
     var profitAmount by remember { mutableStateOf(if (item.profit == 0.0) "" else if (item.profit % 1.0 == 0.0) item.profit.toInt().toString() else item.profit.toString()) }
     var month by remember { mutableStateOf(item.month.toString()) }
     var year by remember { mutableStateOf(item.year.toString()) }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Edit Profit Entry") },
-        text = {
-            Column {
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text("Description / Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = profitAmount,
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Text(strings.editEntry, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = Color.White)
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                FinanceInputLabel(strings.descriptionName)
+                FinanceInputField(value = name, onValueChange = { name = it })
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                FinanceInputLabel("${strings.profitAmount} (€)")
+                FinanceInputField(
+                    value = profitAmount, 
                     onValueChange = { profitAmount = it },
-                    label = { Text("Profit Amount (€)") },
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    OutlinedTextField(
-                        value = month,
-                        onValueChange = { month = it },
-                        label = { Text("Month (1-12)") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    OutlinedTextField(
-                        value = year,
-                        onValueChange = { year = it },
-                        label = { Text("Year") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
-                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        FinanceInputLabel(strings.monthRange)
+                        FinanceInputField(
+                            value = month, 
+                            onValueChange = { month = it },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        FinanceInputLabel(strings.yearLabel)
+                        FinanceInputField(
+                            value = year, 
+                            onValueChange = { year = it },
+                            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number)
+                        )
+                    }
                 }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                val p = profitAmount.toDoubleOrNull()
-                val m = month.toIntOrNull()
-                val y = year.toIntOrNull()
-                if (p != null && m != null && y != null) {
-                    onConfirm(p, m, y, name.ifBlank { "Manual Entry" })
+                
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = onDismiss, 
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF334155)),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    ) {
+                        Text(strings.cancel, color = Color(0xFFCBD5E1))
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        onClick = {
+                            val p = profitAmount.toDoubleOrNull()
+                            val m = month.toIntOrNull()
+                            val y = year.toIntOrNull()
+                            if (p != null && m != null && y != null) {
+                                onConfirm(p, m, y, name.ifBlank { "Manual Entry" })
+                            }
+                        }, 
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    ) {
+                        Text(strings.save, color = Color.White, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }) {
-                Text("Save")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
             }
         }
-    )
+    }
+}
+
+enum class SortOption {
+    DATE_DESC,
+    AMOUNT_DESC,
+    AMOUNT_ASC
 }

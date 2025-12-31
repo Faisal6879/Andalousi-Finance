@@ -26,10 +26,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.faisal.financecalc.data.CreditCard
 import com.faisal.financecalc.data.EntryType
 import com.faisal.financecalc.viewmodel.MainViewModel
 import com.faisal.financecalc.ui.theme.LocalAppStrings
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun PremiumDashboardScreen(
@@ -49,6 +52,7 @@ fun PremiumDashboardScreen(
     val strings = LocalAppStrings.current
     
     var showAddCardDialog by remember { mutableStateOf(false) }
+    var showHistoryDialog by remember { mutableStateOf(false) }
 
     // Recent transactions (last 5)
     val recentTransactions = remember(allEntries) {
@@ -77,12 +81,12 @@ fun PremiumDashboardScreen(
                 ) {
                     Column {
                         Text(
-                            text = "Welcome back,",
+                            text = strings.welcomeBack,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                         )
                         Text(
-                            text = "Faisal",
+                            text = "Faisal", // Keep literal name for now
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onBackground
@@ -90,14 +94,15 @@ fun PremiumDashboardScreen(
                     }
                     Box(
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(50.dp)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                            .background(Color(0xFF1E293B))
+                            .border(2.dp, Color(0xFFB4975A), CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            Icons.Default.Person,
-                            contentDescription = "Profile",
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "Notifications",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -112,42 +117,42 @@ fun PremiumDashboardScreen(
                     income = totalIncome,
                     expense = totalExpense,
                     onAdd = onNavigateToIncome,
-                    onSend = onNavigateToExpenses
+                    onSend = onNavigateToExpenses,
+                    onClick = { showHistoryDialog = true }
                 )
             }
-
-            // MY CARDS Section (Dynamic)
+            // My Cards Section
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "My Cards",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    IconButton(onClick = { showAddCardDialog = true }) {
-                        Icon(Icons.Default.AddCircleOutline, contentDescription = "Add Card", tint = MaterialTheme.colorScheme.primary)
+                    Text(strings.myCards, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
+                    TextButton(onClick = { showAddCardDialog = true }) {
+                        Icon(Icons.Default.Add, null)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(strings.addCard)
                     }
                 }
             }
-            
+
             item {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
                 ) {
                     items(allCards) { card ->
-                        DynamicCreditCardItem(
-                            card = card,
-                            onDelete = { viewModel.deleteCreditCard(card) }
+                        com.faisal.financecalc.ui.components.PremiumCreditCard(
+                            holderName = card.holderName,
+                            cardNumber = card.cardNumber,
+                            balance = card.balance,
+                            modifier = Modifier.width(300.dp),
+                            startColor = com.faisal.financecalc.ui.theme.CardColors[card.colorTheme % com.faisal.financecalc.ui.theme.CardColors.size].first,
+                            endColor = com.faisal.financecalc.ui.theme.CardColors[card.colorTheme % com.faisal.financecalc.ui.theme.CardColors.size].second
                         )
                     }
                     
-                    // Add Card Button in List
                     item {
                         AddCardButton {
                              showAddCardDialog = true
@@ -187,6 +192,16 @@ fun PremiumDashboardScreen(
             
             item { Spacer(modifier = Modifier.height(80.dp)) }
         }
+    }
+    
+
+
+    if (showHistoryDialog) {
+        TotalHistoryDialog(
+            viewModel = viewModel,
+            allEntries = allEntries,
+            onDismiss = { showHistoryDialog = false }
+        )
     }
     
     if (showAddCardDialog) {
@@ -517,84 +532,120 @@ fun MainBalanceCard(
     income: Double,
     expense: Double,
     onAdd: () -> Unit,
-    onSend: () -> Unit
+    onSend: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            .height(230.dp), // Slightly taller for breathing room
+        shape = RoundedCornerShape(26.dp), // Smoother corners
+        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .clickable { onClick() }
                 .background(
-                    Brush.linearGradient(
+                    Brush.verticalGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primary, // Navy
-                            MaterialTheme.colorScheme.secondary // Gold/Accent
+                            Color(0xFF1E3A8A), // Blue 900 - Premium Banking Blue
+                            Color(0xFF172554), // Slate 950 - Deepest Depth
                         )
                     )
                 )
-                .padding(24.dp)
         ) {
+            // Content
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(28.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
+                // Top Section (Balance)
                 Column {
                     Text(
                         text = "Total Balance",
                         style = MaterialTheme.typography.labelLarge,
-                        color = Color.White.copy(alpha = 0.8f)
+                        color = Color.White.copy(alpha = 0.85f),
+                        letterSpacing = 0.5.sp
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "${String.format("%.2f", balance)} $currencySymbol",
-                        style = MaterialTheme.typography.displayMedium,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.displayLarge.copy(
+                            fontSize = 42.sp,
+                            letterSpacing = (-1.5).sp
+                        ),
                         color = Color.White
                     )
                 }
 
+                // Bottom Section (Stats) - Glassmorphism feel
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.Black.copy(alpha = 0.15f)) // Subtle separation
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // Stats Row
+                    // Income
                     Column(modifier = Modifier.weight(1f)) {
                          Row(verticalAlignment = Alignment.CenterVertically) {
-                             Icon(Icons.Default.ArrowCircleUp, null, tint = Color(0xFF69F0AE), modifier = Modifier.size(16.dp))
-                             Spacer(modifier = Modifier.width(4.dp))
+                             Box(
+                                 modifier = Modifier
+                                     .size(24.dp)
+                                     .clip(CircleShape)
+                                     .background(Color(0xFF69F0AE).copy(alpha=0.2f)),
+                                 contentAlignment = Alignment.Center
+                             ) {
+                                Icon(Icons.Default.ArrowUpward, null, tint = Color(0xFF69F0AE), modifier = Modifier.size(14.dp))
+                             }
+                             Spacer(modifier = Modifier.width(8.dp))
                              Text(
                                  text = "Income",
                                  style = MaterialTheme.typography.labelSmall,
-                                 color = Color.White.copy(alpha=0.7f)
+                                 color = Color.White.copy(alpha=0.9f)
                              )
                          }
+                         Spacer(modifier = Modifier.height(4.dp))
                          Text(
                              text = "+${String.format("%.0f", income)}",
-                             style = MaterialTheme.typography.bodyLarge,
-                             fontWeight = FontWeight.SemiBold,
+                             style = MaterialTheme.typography.titleMedium,
+                             fontWeight = FontWeight.Bold,
                              color = Color.White
                          )
                     }
-                    Column(modifier = Modifier.weight(1f)) {
+                    
+                    // Vertical Divider
+                    Box(modifier = Modifier.width(1.dp).height(32.dp).background(Color.White.copy(alpha=0.2f))) 
+
+                    // Expense
+                    Column(modifier = Modifier.weight(1f).padding(start = 12.dp)) {
                          Row(verticalAlignment = Alignment.CenterVertically) {
-                             Icon(Icons.Default.ArrowCircleDown, null, tint = Color(0xFFFF8A80), modifier = Modifier.size(16.dp))
-                             Spacer(modifier = Modifier.width(4.dp))
+                             Box(
+                                 modifier = Modifier
+                                     .size(24.dp)
+                                     .clip(CircleShape)
+                                     .background(Color(0xFFFF8A80).copy(alpha=0.2f)),
+                                 contentAlignment = Alignment.Center
+                             ) {
+                                Icon(Icons.Default.ArrowDownward, null, tint = Color(0xFFFF8A80), modifier = Modifier.size(14.dp))
+                             }
+                             Spacer(modifier = Modifier.width(8.dp))
                              Text(
                                  text = "Expense",
                                  style = MaterialTheme.typography.labelSmall,
-                                 color = Color.White.copy(alpha=0.7f)
+                                 color = Color.White.copy(alpha=0.9f)
                              )
                          }
+                         Spacer(modifier = Modifier.height(4.dp))
                          Text(
                              text = "-${String.format("%.0f", expense)}",
-                             style = MaterialTheme.typography.bodyLarge,
-                             fontWeight = FontWeight.SemiBold,
+                             style = MaterialTheme.typography.titleMedium,
+                             fontWeight = FontWeight.Bold,
                              color = Color.White
                          )
                     }
@@ -613,48 +664,271 @@ fun TransactionRow(
     isIncome: Boolean,
     currencySymbol: String
 ) {
-    Row(
+    // Treat as "Positive" if Income (logic passed from caller determines this)
+    // Actually, caller passes isIncome. If this row is used for Debt, caller usually handles it.
+    // We will assume isIncome = Green, !isIncome = Red.
+    val color = if (isIncome) com.faisal.financecalc.ui.theme.SuccessGreen else MaterialTheme.colorScheme.error
+    
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        shape = RoundedCornerShape(18.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        // Icon Box
-        Box(
+        Row(
             modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
-            contentAlignment = Alignment.Center
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = if (isIncome) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            // Icon Box
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(color.copy(alpha=0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = if (isIncome) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
+                    contentDescription = null,
+                    tint = color,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.width(16.dp))
+            
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            
+            Text(
+                text = "${if (isIncome) "+" else "-"}${String.format("%.2f", amount)} $currencySymbol",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = color
             )
         }
-        
-        Spacer(modifier = Modifier.width(16.dp))
-        
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
-            )
+    }
+}
+
+@Composable
+fun TotalHistoryDialog(
+    viewModel: MainViewModel,
+    allEntries: List<com.faisal.financecalc.data.FinanceEntry>,
+    onDismiss: () -> Unit
+) {
+    val history by viewModel.allHistory.collectAsState(initial = emptyList())
+
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF0F172A)),
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth().heightIn(max = 600.dp).padding(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                Text(
+                    "Balance History", 
+                    style = MaterialTheme.typography.titleLarge, 
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Text("Changes to your balance", style = MaterialTheme.typography.bodySmall, color = Color(0xFF94A3B8))
+                Spacer(modifier = Modifier.height(16.dp))
+
+                if (history.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
+                        Text("No history recorded yet.", color = Color(0xFF94A3B8))
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(history) { h ->
+                            val entry = allEntries.find { it.id == h.entryId }
+                            val name = entry?.name ?: "Deleted Entry"
+                            val diff = h.newAmount - h.oldAmount
+                            val isPositive = diff >= 0
+                            
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+                                shape = RoundedCornerShape(14.dp),
+                                modifier = Modifier.fillMaxWidth(),
+                                elevation = CardDefaults.cardElevation(0.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = Color.White)
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            java.text.SimpleDateFormat("dd.MM.yyyy • HH:mm").format(java.util.Date(h.dateTimestamp)),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = Color(0xFF94A3B8)
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            "Previous: ${h.oldAmount} → New: ${h.newAmount}",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = Color(0xFF64748B)
+                                        )
+                                    }
+                                    
+                                    Text(
+                                        text = "${if(isPositive) "+" else ""}${String.format("%.2f", diff)} €",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if(isPositive) Color(0xFF22C55E) else Color(0xFFEF4444)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Button(
+                    onClick = onDismiss,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF334155)),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.fillMaxWidth().height(48.dp)
+                ) {
+                    Text("Close", color = Color(0xFFCBD5E1))
+                }
+            }
         }
-        
-        Text(
-            text = "${if (isIncome) "+" else "-"}${String.format("%.2f", amount)} $currencySymbol",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = if (isIncome) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error
-        )
+    }
+}
+
+@Composable
+fun AddCardDialog(
+    showAddCardDialog: Boolean,
+    onDismiss: () -> Unit,
+    viewModel: MainViewModel,
+    currencySymbol: String
+) {
+    var holderName by remember { mutableStateOf("") }
+    var lastFourDigits by remember { mutableStateOf("") }
+    var initialBalance by remember { mutableStateOf("") }
+    var selectedColorIndex by remember { mutableStateOf(0) }
+    
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
+    val cardColors = com.faisal.financecalc.ui.theme.CardColors
+
+    if (showAddCardDialog) {
+        Dialog(onDismissRequest = onDismiss) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B)),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(strings.addNewCard, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = Color.White)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    com.faisal.financecalc.ui.components.FinanceInputLabel(strings.cardHolder)
+                    com.faisal.financecalc.ui.components.FinanceInputField(value = holderName, onValueChange = { holderName = it })
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    com.faisal.financecalc.ui.components.FinanceInputLabel(strings.cardNumberLast4)
+                    com.faisal.financecalc.ui.components.FinanceInputField(
+                        value = lastFourDigits, 
+                        onValueChange = { if (it.length <= 4) lastFourDigits = it },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    com.faisal.financecalc.ui.components.FinanceInputLabel("${strings.initialBalance} ($currencySymbol)")
+                    com.faisal.financecalc.ui.components.FinanceInputField(
+                        value = initialBalance, 
+                        onValueChange = { initialBalance = it },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(strings.colorStart, color = Color.White, style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        items(cardColors.size) { index ->
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        brush = Brush.linearGradient(
+                                            colors = listOf(cardColors[index].first, cardColors[index].second)
+                                        )
+                                    )
+                                    .border(
+                                        width = if (selectedColorIndex == index) 2.dp else 0.dp,
+                                        color = if (selectedColorIndex == index) Color.White else Color.Transparent,
+                                        shape = CircleShape
+                                    )
+                                    .clickable { selectedColorIndex = index }
+                            )
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Button(
+                            onClick = onDismiss,
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF334155)),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier.weight(1f).height(48.dp)
+                        ) {
+                            Text(strings.cancel, color = Color(0xFFCBD5E1))
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Button(
+                            onClick = {
+                                val bal = initialBalance.toDoubleOrNull() ?: 0.0
+                                viewModel.addCreditCard(
+                                    CreditCard(
+                                        holderName = holderName,
+                                        balance = bal,
+                                        colorTheme = selectedColorIndex,
+                                        cardNumber = lastFourDigits,
+                                        expiryDate = "12/30" // Default or add input
+                                    )
+                                )
+                                onDismiss()
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier.weight(1f).height(48.dp)
+                        ) {
+                            Text(strings.addCard, color = Color.White, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

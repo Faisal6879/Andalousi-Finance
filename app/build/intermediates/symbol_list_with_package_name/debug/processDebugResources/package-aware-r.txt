@@ -418,6 +418,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color ic_launcher_background
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -664,6 +665,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable app_icon
 drawable app_logo
+drawable app_logo_source
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl

@@ -4,24 +4,24 @@
             "outputFile": "com.faisal.financecalc.app-mergeDebugResources-63:/values-ro/values-ro.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\a87c6e6832e2ed73ce67d9df96b36a7f\\transformed\\browser-1.4.0\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\68f79034860f55d9222de4826bd49d74\\transformed\\appcompat-1.2.0\\res\\values-ro\\values-ro.xml",
                     "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,162,264,379",
-                        "endColumns": "106,101,114,104",
-                        "endOffsets": "157,259,374,479"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,226,330,443,527,631,752,837,917,1008,1101,1196,1290,1390,1483,1578,1672,1763,1855,1938,2050,2158,2258,2372,2478,2584,2748,2851",
+                        "endColumns": "120,103,112,83,103,120,84,79,90,92,94,93,99,92,94,93,90,91,82,111,107,99,113,105,105,163,102,83",
+                        "endOffsets": "221,325,438,522,626,747,832,912,1003,1096,1191,1285,1385,1478,1573,1667,1758,1850,1933,2045,2153,2253,2367,2473,2579,2743,2846,2930"
                     },
                     "to": {
-                        "startLines": "62,100,101,102",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "6689,10911,11013,11128",
-                        "endColumns": "106,101,114,104",
-                        "endOffsets": "6791,11008,11123,11228"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,122",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,226,330,443,527,631,752,837,917,1008,1101,1196,1290,1390,1483,1578,1672,1763,1855,1938,2050,2158,2258,2372,2478,2584,2748,13302",
+                        "endColumns": "120,103,112,83,103,120,84,79,90,92,94,93,99,92,94,93,90,91,82,111,107,99,113,105,105,163,102,83",
+                        "endOffsets": "221,325,438,522,626,747,832,912,1003,1096,1191,1285,1385,1478,1573,1667,1758,1850,1933,2045,2153,2253,2367,2473,2579,2743,2846,13381"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\19be1c070d070a413322816529847297\\transformed\\jetified-play-services-base-18.0.1\\res\\values-ro\\values.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\42435fde675ae3da66c4b63567efcc9d\\transformed\\jetified-play-services-base-18.0.1\\res\\values-ro\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,41 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\9bcce399a3507425429d43518d6dec30\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-ro\\values.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\9f6e8a049b296aa9b8c341cb0030a9db\\transformed\\browser-1.4.0\\res\\values-ro\\values-ro.xml",
                     "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "140",
-                        "endOffsets": "335"
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,162,264,379",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "157,259,374,479"
                     },
                     "to": {
-                        "startLines": "51",
-                        "startColumns": "4",
-                        "startOffsets": "5340",
-                        "endColumns": "144",
-                        "endOffsets": "5480"
+                        "startLines": "62,100,101,102",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "6689,10911,11013,11128",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "6791,11008,11123,11228"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\8ae10d94616ebf740d296be9033af3f5\\transformed\\jetified-ui-release\\res\\values-ro\\values-ro.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,202,286,383,485,573,651,738,829,911,983,1052,1140,1230,1303,1380,1447",
-                        "endColumns": "96,83,96,101,87,77,86,90,81,71,68,87,89,72,76,66,114",
-                        "endOffsets": "197,281,378,480,568,646,733,824,906,978,1047,1135,1225,1298,1375,1442,1557"
-                    },
-                    "to": {
-                        "startLines": "40,41,94,96,98,113,114,115,116,117,118,119,120,123,127,128,129",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4062,4159,10383,10575,10749,12563,12641,12728,12819,12901,12973,13042,13130,13386,13741,13818,13885",
-                        "endColumns": "96,83,96,101,87,77,86,90,81,71,68,87,89,72,76,66,114",
-                        "endOffsets": "4154,4238,10475,10672,10832,12636,12723,12814,12896,12968,13037,13125,13215,13454,13813,13880,13995"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\40a07006a2f94b64a9d47f5507fb111c\\transformed\\jetified-material3-1.1.1\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\f1d8e217482e4ff89a0bc64e7ce8e724\\transformed\\jetified-material3-1.1.1\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -89,24 +72,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\aae54a5b8e89758cd12618704ad0b30c\\transformed\\core-1.12.0\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\a6b005c8899bc5b2c8e9caab3e07b678\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-ro\\values.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,355,454,556,665,782",
-                        "endColumns": "97,101,99,98,101,108,116,100",
-                        "endOffsets": "148,250,350,449,551,660,777,878"
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "140",
+                        "endOffsets": "335"
                     },
                     "to": {
-                        "startLines": "33,34,35,36,37,38,39,125",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3335,3433,3535,3635,3734,3836,3945,13543",
-                        "endColumns": "97,101,99,98,101,108,116,100",
-                        "endOffsets": "3428,3530,3630,3729,3831,3940,4057,13639"
+                        "startLines": "51",
+                        "startColumns": "4",
+                        "startOffsets": "5340",
+                        "endColumns": "144",
+                        "endOffsets": "5480"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\92284140237a99dee72a1bda959feadf\\transformed\\biometric-1.1.0\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\1f69e0f2836a68a3ecdad032bbbeb694\\transformed\\jetified-ui-release\\res\\values-ro\\values-ro.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,202,286,383,485,573,651,738,829,911,983,1052,1140,1230,1303,1380,1447",
+                        "endColumns": "96,83,96,101,87,77,86,90,81,71,68,87,89,72,76,66,114",
+                        "endOffsets": "197,281,378,480,568,646,733,824,906,978,1047,1135,1225,1298,1375,1442,1557"
+                    },
+                    "to": {
+                        "startLines": "40,41,94,96,98,113,114,115,116,117,118,119,120,123,127,128,129",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4062,4159,10383,10575,10749,12563,12641,12728,12819,12901,12973,13042,13130,13386,13741,13818,13885",
+                        "endColumns": "96,83,96,101,87,77,86,90,81,71,68,87,89,72,76,66,114",
+                        "endOffsets": "4154,4238,10475,10672,10832,12636,12723,12814,12896,12968,13037,13125,13215,13454,13813,13880,13995"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\0d520de7c564eea8137195c2273e35c0\\transformed\\biometric-1.1.0\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -123,20 +123,20 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\904a6e2a807c11c1de3cd2f1b5126a8e\\transformed\\appcompat-1.2.0\\res\\values-ro\\values-ro.xml",
+                    "source": "C:\\Users\\Faisa\\.gradle\\caches\\9.0-milestone-1\\transforms\\0a6d3f134a135025625ae9917e07ddee\\transformed\\core-1.12.0\\res\\values-ro\\values-ro.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,226,330,443,527,631,752,837,917,1008,1101,1196,1290,1390,1483,1578,1672,1763,1855,1938,2050,2158,2258,2372,2478,2584,2748,2851",
-                        "endColumns": "120,103,112,83,103,120,84,79,90,92,94,93,99,92,94,93,90,91,82,111,107,99,113,105,105,163,102,83",
-                        "endOffsets": "221,325,438,522,626,747,832,912,1003,1096,1191,1285,1385,1478,1573,1667,1758,1850,1933,2045,2153,2253,2367,2473,2579,2743,2846,2930"
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,255,355,454,556,665,782",
+                        "endColumns": "97,101,99,98,101,108,116,100",
+                        "endOffsets": "148,250,350,449,551,660,777,878"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,122",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,226,330,443,527,631,752,837,917,1008,1101,1196,1290,1390,1483,1578,1672,1763,1855,1938,2050,2158,2258,2372,2478,2584,2748,13302",
-                        "endColumns": "120,103,112,83,103,120,84,79,90,92,94,93,99,92,94,93,90,91,82,111,107,99,113,105,105,163,102,83",
-                        "endOffsets": "221,325,438,522,626,747,832,912,1003,1096,1191,1285,1385,1478,1573,1667,1758,1850,1933,2045,2153,2253,2367,2473,2579,2743,2846,13381"
+                        "startLines": "33,34,35,36,37,38,39,125",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3335,3433,3535,3635,3734,3836,3945,13543",
+                        "endColumns": "97,101,99,98,101,108,116,100",
+                        "endOffsets": "3428,3530,3630,3729,3831,3940,4057,13639"
                     }
                 }
             ]

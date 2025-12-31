@@ -180,6 +180,21 @@ class FirestoreRepository {
     
     // ========== History ==========
     
+    fun getAllHistory(): Flow<List<HistoryEntry>> = callbackFlow {
+        val listener = db.collection("users").document(getUserId())
+            .collection("history")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+                val history = snapshot?.documents?.mapNotNull { it.toObject(HistoryEntry::class.java) }
+                    ?.sortedByDescending { it.timestamp } ?: emptyList()
+                trySend(history)
+            }
+        awaitClose { listener.remove() }
+    }
+
     fun getHistoryForEntry(entryId: Long): Flow<List<HistoryEntry>> = callbackFlow {
         val listener = db.collection("users").document(getUserId())
             .collection("history")

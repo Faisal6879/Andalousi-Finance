@@ -10,12 +10,12 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.MoneyOff
+import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
@@ -103,16 +105,22 @@ class MainActivity : ComponentActivity() {
 fun MainApp(viewModel: MainViewModel, isDarkMode: Boolean, onLogout: () -> Unit) {
     val navController = rememberNavController()
     val context = LocalContext.current
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("FinanceCalc") },
+                title = { Text("Andalousi Finance", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background, // Clean modern look (was Primary)
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    actionIconContentColor = MaterialTheme.colorScheme.onBackground
+                ),
                 actions = {
                     IconButton(onClick = { viewModel.toggleDarkMode() }) {
                         Icon(
                             imageVector = if (isDarkMode) Icons.Default.LightMode else Icons.Default.DarkMode,
-                            contentDescription = "Toggle Theme"
+                            contentDescription = "Toggle Theme" // Keep generic or add string if needed, not critical textual
                         )
                     }
                     IconButton(onClick = { 
@@ -121,10 +129,10 @@ fun MainApp(viewModel: MainViewModel, isDarkMode: Boolean, onLogout: () -> Unit)
                         Icon(Icons.Default.Share, contentDescription = "Export CSV")
                     }
                     IconButton(onClick = { navController.navigate("settings") }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        Icon(Icons.Default.Settings, contentDescription = strings.settings)
                     }
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Default.Logout, contentDescription = "Logout")
+                        Icon(Icons.Default.Logout, contentDescription = strings.logout)
                     }
                 }
             )
@@ -191,24 +199,44 @@ fun shareCsv(context: android.content.Context, viewModel: MainViewModel) {
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
+    val strings = com.faisal.financecalc.ui.theme.LocalAppStrings.current
     val items = listOf(
-        "home" to Icons.Default.Home, 
-        "income" to Icons.Default.AccountBalanceWallet, 
-        "debts" to Icons.Default.Warning, // Warning/Alert for Debts
-        "expenses" to Icons.Default.MoneyOff, 
-        "shop" to Icons.Default.ShoppingCart,
-        "profit" to Icons.Default.Star 
+        Triple("home", strings.dashboard, Icons.Default.Home), 
+        Triple("income", strings.income, Icons.Default.AccountBalanceWallet), 
+        Triple("debts", strings.debts, Icons.Default.AddCircle), 
+        Triple("expenses", strings.expenses, Icons.Default.RemoveCircle), 
+        Triple("shop", strings.shop, Icons.Default.ShoppingCart),
+        Triple("profit", strings.profitLabel, Icons.Default.Star) 
     )
     
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surface, 
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        tonalElevation = 8.dp
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         
-        for ((route, icon) in items) {
+        items.forEach { (route, label, icon) ->
             NavigationBarItem(
-                icon = { Icon(icon, contentDescription = route) },
-                label = { Text(route.replaceFirstChar { it.uppercase() }) },
+                icon = { Icon(icon, contentDescription = label) },
+                label = { 
+                    Text(
+                        label, 
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), // Smaller text to fit
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    ) 
+                },
                 selected = currentRoute == route,
+                alwaysShowLabel = true, // Force show all labels as requested
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
                 onClick = {
                     navController.navigate(route) {
                         popUpTo(navController.graph.findStartDestination().id) {
